@@ -22,6 +22,19 @@ public class DbConsole {
         }
         scanner.close();
         System.out.println(columnMapping);
+        String sql = "CREATE TABLE REGISTRATION " +
+                "(id INTEGER not NULL, " +
+                " lname VARCHAR(255), " +
+                " fname VARCHAR(255), " +
+                " department VARCHAR(255), " +
+                " position VARCHAR(255), " +
+                " email VARCHAR(255), " +
+                " mobile_phone VARCHAR(255), " +
+                " home_phone VARCHAR(255), " +
+                " логин VARCHAR(255), " +
+                " пароль VARCHAR(255), " +
+                " PRIMARY KEY ( id ))";
+        SQLUtil.executeUpdateQuery(sql);
 
     }
 }

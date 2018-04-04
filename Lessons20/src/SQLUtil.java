@@ -31,12 +31,13 @@ public class SQLUtil {
     {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testjava", "root", "");
              Statement statement =  connection.createStatement()
+
         )
         {
 
-
-            //executeUpdate(sql);
             statement.executeUpdate(sql);
+            //executeUpdate(sql);
+          //  ResultSet resultSet = statement.executeUpdate(sql);
 
 
 

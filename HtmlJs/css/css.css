@@ -1,0 +1,72 @@
+header
+{
+	    background: azure;
+}
+.old_block
+{
+	display: flex;
+}
+header a
+{
+    text-align: right;
+    padding: 15px 50px 15px 15px;
+    display: block;
+}
+.text_block,
+.image_bock
+{
+	width:50%;
+	display:inline-block;
+	    vertical-align: text-top;
+		padding:20px;
+
+}
+.image_bock img
+{
+	    max-width: 100%;
+
+}
+.sing_form
+{
+	    width: 400px;
+    margin: 0 auto;
+}
+.input_form
+{
+	  padding:20px;  
+}
+.input_form label
+{
+	    display: block;
+}
+.input_form {
+    padding: 20px;
+    padding-bottom: 0;
+}
+.btn
+{
+	    margin-top: 20px;
+}
+.image_bock
+{
+	text-align:center;
+}
+#error,
+#text
+{
+	color:red;
+display: none;
+}
+.shows
+{
+	display:block !important;
+}
+.blocks
+{
+	width:400px;
+	padding:20px;
+	margin: 0 auto;
+}
+#plus{
+	cursor:pointer;
+}

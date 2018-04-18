@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<link href="css/css.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="blocks">
+<input type="text" />
+<span id="plus">+</span>
+<br/>
+<br/>
+<br/>
+<button>Timer</button>
+</div>
+<script>
+	var blocks = document.getElementById('plus');
+blocks.onclick = function() {
+     var newLi = document.createElement('input');
+  
+
+  blocks.appendChild(newLi);
+}
+
+var button = document.getElementsByTagName('button');
+button[0].onclick = function() {
+  var time = 15;
+  button[0].disabled = true;
+  button[0].innerHTML =  time;
+  var interval_id = setInterval(function() {  
+    time--;
+    if (time != 0) {
+      button[0].innerHTML = 'Отсчет времени ' + time;
+    } else {
+      clearInterval(interval_id); 
+      button[0].disabled = false;
+      button[0].innerHTML = 'Timer';
+    }
+  }, 1000);
+};
+</script>
+</body>
+</html>

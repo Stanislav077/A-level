@@ -21,7 +21,7 @@ var row = $( "input[name='rows']" ).val();
     for(var j =0; j<col; j++){
     html +='<tr>';
         for(var s = 0; s<row; s++) {
-            html += '<td><label for="rows-'+s+'">Input Rows-'+j+s+' </label><input id="rows-'+j+s+'" name="row-'+s+'" /></td>';
+            html += '<td><label for="rows-'+j+s+'">Input Rows </label><input id="rows-'+j+s+'" name="row" /></td>';
 
         }
         html += '</tr>';
@@ -36,17 +36,19 @@ $('.resoult').html(html);
 
 
 $('#save_table').on('click',function () {
-
+    $('#form_table input').length;
 var data = $('#form_table').serialize();
+ var  summ = $('#form_table input').length;
     $.ajax({
         url: 'account',
         type: 'post',
-        data: data,
-       dataType: 'json',
+        data: data+'&test='+summ,
+      // dataType: 'json',
 
 
-        success: function(serverData ) {
-console.log(serverData );
+        success: function(json) {
+console.log(json);
+
 
 
         },

@@ -49,13 +49,32 @@ var data = $('#form_table').serialize();
 
         success: function(json) {
 console.log(json);
+           $('.resoult').hide('slow',function () {
+               $('.resoult').html('<h2 class="succsses">Update Data Base</h2>');
+               $('.resoult').show('slow');
+           })
 
+setTimeout(function () {
+    $('.succsses').remove();
+    location.reload();
+},3000)
 
 
         },
         error: function(e)
         {
-         console.log(e);
+      //   console.log(e);
+         if(e.statusText == "OK"){
+             $('.resoult').hide('slow',function () {
+                 $('.resoult').html('<h2 class="succsses">Update Data Base</h2>');
+                 $('.resoult').show('slow');
+             })
+
+             setTimeout(function () {
+                 $('.succsses').remove();
+                 location.reload();
+             },3000)
+         }
         }
     });
 
@@ -74,8 +93,12 @@ console.log(json);
         success: function(json) {
 
             console.log(json);
+            for (var key in json) {
 
-$('.result_table').html(json);
+                $('.result_table').append("<p>"+key+" :"+" "+json[key]+"</p>")
+
+            }
+
 
         },
         error: function(e)

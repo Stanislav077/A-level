@@ -31,6 +31,7 @@ public class ServletAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
+        String tableName = request.getParameter("table_name");
         String[] values = request.getParameterValues("row");
 
         Map<String, String> table = new HashMap<>();
@@ -38,49 +39,63 @@ public class ServletAccount extends HttpServlet {
             table.put("Row_" + i, values[i]);
         }
 
-        for (Map.Entry<String, String> entry : table.entrySet()) {
-            System.out.println("ID =  " + entry.getKey() + " День недели = " + entry.getValue());
-        }
+        String queryas = "SELECT * FROM tables WHERE table_name='"+tableName+"'";
 
-        String queryas = "SELECT * FROM `tabels` WHERE 1";
 
-        String query = "CREATE TABLE tabels\n" +
-                "(\n" +
-                "tabels_id int,\n" +
-                "row_name varchar(255),\n" +
-                "row_value varchar(255),\n" +
-                "PRIMARY KEY (tabels_id)" +
-                ");";
-
-        String query2 = "ALTER TABLE  `tabels` MODIFY  `tabels_id` INT( 11 ) NOT NULL AUTO_INCREMENT\n";
-        String query3 = "INSERT INTO tabels SET row_name=?,row_value=?";
-
+        String query = "INSERT INTO tables_value SET row_name=?,row_value=?,table_name_id=?";
+        String res_id ="";
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testjava", "root", "");
              PreparedStatement preparedStatement = connection.prepareStatement(queryas);
              ResultSet resultSet = preparedStatement.executeQuery(queryas)
         ) {
+
+
+            while ( resultSet.next() ) {
+                // Read the next item
+                res_id =  resultSet.getString("id_table_name");
+
+
+            }
+
+
+            if(res_id==""){
+                createTableName(tableName);
+
+                  String new_id = resIdTableName(tableName);
+
+                for (Map.Entry<String, String> entry : table.entrySet()) {
+
+                    updateTable(query,entry.getKey(),entry.getValue(),new_id);
+                }
+
+
+            }else{
+                deleteValue(res_id);
             for (Map.Entry<String, String> entry : table.entrySet()) {
 
-                updateTable(query3,entry.getKey(),entry.getValue());
+                updateTable(query,entry.getKey(),entry.getValue(),res_id);
             }
+            }
+
 
 
         } catch (SQLException e) {
-            createTable(query);
-            alterTable(query2);
-            for (Map.Entry<String, String> entry : table.entrySet()) {
+            createTableName(tableName);
 
-                updateTable(query3,entry.getKey(),entry.getValue());
-            }
+            //for (Map.Entry<String, String> entry : table.entrySet()) {
+
+              //  updateTable(query,entry.getKey(),entry.getValue());
+            //}
         }
 
 
         String json = new Gson().toJson(table);
+        String json2 = new Gson().toJson(tableName);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        out.write(json);
+    //    out.write(json+' '+json2);
 
 
     }
@@ -90,15 +105,16 @@ public class ServletAccount extends HttpServlet {
         requestDispatcher.forward(request, response);
     }
 
-    private void updateTable(String query3, String row_name, String row_value) {
+    private void updateTable(String query, String row_name, String row_value, String res_id) {
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testjava", "root", "");
-             PreparedStatement preparedStatement = connection.prepareStatement(query3);
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         ) {
            //
             preparedStatement.setString(1,row_name);
             preparedStatement.setString(2,row_value);
+            preparedStatement.setString(3,res_id);
             preparedStatement.executeUpdate();
 
 
@@ -109,27 +125,74 @@ public class ServletAccount extends HttpServlet {
 
     }
 
-    private void alterTable(String query2) {
+    private void createTableName(String table){
+
+
+
+String insert_table = "INSERT INTO tables set table_name='"+table+"'";
+
+
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testjava", "root", "");
-             PreparedStatement preparedStatement = connection.prepareStatement(query2);
+
+             PreparedStatement insertStatement = connection.prepareStatement(insert_table);
+
 
         ) {
-            preparedStatement.executeUpdate(query2);
+
+            insertStatement.executeUpdate(insert_table);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
         }
+
     }
 
-    private void createTable(String query) {
+    private String resIdTableName(String table){
+
+
+
+        String select_table = "SELECT * FROM tables WHERE table_name='"+table+"'";
+String res_id="";
+
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testjava", "root", "");
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+             PreparedStatement selectStatement = connection.prepareStatement(select_table);
+             ResultSet resultSet = selectStatement.executeQuery(select_table)
 
         ) {
-            preparedStatement.executeUpdate(query);
+            while ( resultSet.next() ) {
+                // Read the next item
+               res_id =  resultSet.getString("id_table_name");
+
+
+            }
+
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            //  e.printStackTrace();
         }
+return res_id;
+    }
+
+    private void deleteValue(String res_id){
+
+
+
+        String delete_table = "DELETE FROM `tables_value` WHERE `table_name_id`='"+res_id+"'";
+
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/testjava", "root", "");
+
+             PreparedStatement insertStatement = connection.prepareStatement(delete_table);
+
+
+        ) {
+
+            insertStatement.executeUpdate(delete_table);
+
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+        }
+
     }
 }

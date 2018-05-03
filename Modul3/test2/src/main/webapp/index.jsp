@@ -23,6 +23,10 @@
                 <input name="rows" id="rows" type="text"/>
             </li>
             <li>
+                <label for="table_name"> Table Name</label>
+                <input name="table_name" id="table_name" type="text"/>
+            </li>
+            <li>
                 <input id="save_table" type="button" value="Save Table">
             </li>
 
@@ -30,6 +34,7 @@
 
     </nav>
 </header>
+<div class="left_block">
 
 <form id="form_table" method="post" action="">
 <div class="resoult"></div>
@@ -56,6 +61,11 @@
         <input class="btn"  type="submit" />
 
     </form>
+</div>
+</div>
+<div class="right_block">
+    <h3>Create the table</h3>
+    <div class="result_table"></div>
 </div>
 </body>
 </html>

@@ -5,3 +5,22 @@
     width: 70%;
     margin: 0 auto;
 }
+.right_block {
+    width: 30%;
+    height: 100%;
+    box-shadow: -7px 2px 51px -24px rgba(0,0,0,0.9);
+}
+.left_block {
+    width: 69%;
+}
+.left_block,
+.right_block
+{
+    display: inline-block;
+    vertical-align: top;
+}
+.right_block h3
+{
+    padding: 10px;
+    text-align: center;
+}

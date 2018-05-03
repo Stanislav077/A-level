@@ -39,10 +39,11 @@ $('#save_table').on('click',function () {
     $('#form_table input').length;
 var data = $('#form_table').serialize();
  var  summ = $('#form_table input').length;
+ var table_name = $( "input[name='table_name']" ).val();
     $.ajax({
         url: 'account',
         type: 'post',
-        data: data+'&test='+summ,
+        data: data+'&table_name='+table_name,
       // dataType: 'json',
 
 
@@ -64,6 +65,23 @@ console.log(json);
 })
 
 
+    $.ajax({
+        url: 'havetable',
+        type: 'post',
+        // dataType: 'json',
 
+
+        success: function(json) {
+
+            console.log(json);
+
+$('.result_table').html(json);
+
+        },
+        error: function(e)
+        {
+            console.log(e);
+        }
+    });
 
 })
